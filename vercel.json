@@ -41,6 +41,7 @@
       {"src": "/posts/floating-point","dest": "/posts/floating-point.html"},
       {"src": "/posts/network-programming-case","dest": "/posts/network-programming-case.html"},
       {"src": "/posts/jdk-rt-jar-java-lang-annotation","dest": "/posts/jdk-rt-jar-java-lang-annotation.html"},
-      {"src": "/posts/jdk-rt-jar-java-lang-reflect","dest": "/posts/jdk-rt-jar-java-lang-reflect.html"}
+      {"src": "/posts/jdk-rt-jar-java-lang-reflect","dest": "/posts/jdk-rt-jar-java-lang-reflect.html"},
+      {"src": "/posts/happens-before-order","dest": "/posts/happens-before-order.html"}
     ]
 }
