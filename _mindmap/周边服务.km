@@ -1,0 +1,393 @@
+{
+    "root": {
+        "data": {
+            "id": "csq270k80zk0",
+            "created": 1684479633294,
+            "text": "周边服务",
+            "expandState": "expand"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "csq2xb200m80",
+                    "created": 1684481693605,
+                    "text": "IaaS"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq2xfjecb40",
+                            "created": 1684481703364,
+                            "text": "容器平台"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2xktzedk0",
+                            "created": 1684481714888,
+                            "text": "弹性伸缩"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csq2xsb3tqg0",
+                    "created": 1684481731161,
+                    "text": "运维"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq2xx8effk0",
+                            "created": 1684481741881,
+                            "text": "硬件管理平台"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2ycqfchs0",
+                            "created": 1684481775623,
+                            "text": "系统/服务监控中心"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2yosw2800",
+                            "created": 1684481801893,
+                            "text": "链路追踪"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2yv4acrs0",
+                            "created": 1684481815643,
+                            "text": "域名管理"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2yytn5ug0",
+                            "created": 1684481823706,
+                            "text": "告警中心"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq2zayyl2w0",
+                            "created": 1684481850149,
+                            "text": "线上变更管理平台"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csq302keag00",
+                    "created": 1684481910218,
+                    "text": "PaaS"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq308sbazk0",
+                            "created": 1684481923758,
+                            "text": "数据库",
+                            "expandState": "expand"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "csq30b0p9hs0",
+                                    "created": 1684481928619,
+                                    "text": "分布式关系型数据库"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq30g4cr680",
+                                    "created": 1684481939723,
+                                    "text": "关系型数据库"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq30kpqhls0",
+                                    "created": 1684481949723,
+                                    "text": "数据传输服务"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq30qgpcjs0",
+                                    "created": 1684481962238,
+                                    "text": "数据库治理服务"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq30zjbhq00",
+                                    "created": 1684481981987,
+                                    "text": "数据库故障演练服务"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq3c63zego0",
+                                    "created": 1684482858303,
+                                    "text": "NoSQL数据库"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq31cszms80",
+                                    "created": 1684482010870,
+                                    "text": "分布式缓存"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq31qn97rk0",
+                                    "created": 1684482040998,
+                                    "text": "分布式KV缓存"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq3cjt9uxk0",
+                                    "created": 1684482888130,
+                                    "text": "KV数据库"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "csq314pey600",
+                            "created": 1684481993240,
+                            "text": "存储"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "csq319xdl7c0",
+                                    "created": 1684482004605,
+                                    "text": "对象存储"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq31n1f0080",
+                                    "created": 1684482033147,
+                                    "text": "内容分发"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq31usuzag0",
+                                    "created": 1684482050044,
+                                    "text": "网络硬盘"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "csq3224ko5s0",
+                            "created": 1684482065990,
+                            "text": "微服务"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "csq32behlyg0",
+                                    "created": 1684482086181,
+                                    "text": "消息中间件"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq32ed0yuo0",
+                                    "created": 1684482092623,
+                                    "text": "服务注册发现治理"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq32lzf1eo0",
+                                    "created": 1684482109214,
+                                    "text": "配置分发管理"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq32x909yw0",
+                                    "created": 1684482133738,
+                                    "text": "任务调度"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq336rbw3c0",
+                                    "created": 1684482154437,
+                                    "text": "分布式ID生成"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq33aguou00",
+                                    "created": 1684482162511,
+                                    "text": "API网关"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq33djetao0",
+                                    "created": 1684482169196,
+                                    "text": "负载均衡"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "csq33sq8ytc0",
+                                    "created": 1684482202261,
+                                    "text": "熔断降级服务禁用保护"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "csq3ai631cw0",
+                            "created": 1684482727823,
+                            "text": "Serverless"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csq34o1fdmo0",
+                    "created": 1684482270418,
+                    "text": "安全"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq34thcve80",
+                            "created": 1684482282264,
+                            "text": "密钥管理"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq352tyt480",
+                            "created": 1684482302618,
+                            "text": "内容安全审核"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq356t5iw00",
+                            "created": 1684482311276,
+                            "text": "服务安全运营"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq35dbblw00",
+                            "created": 1684482325435,
+                            "text": "敏感数据检测"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq35onnfjk0",
+                            "created": 1684482350125,
+                            "text": "OAuth认证"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csq33j2r1ow0",
+                    "created": 1684482181249,
+                    "text": "稳定性"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq33lcdmrc0",
+                            "created": 1684482186185,
+                            "text": "故障演练"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csq35ve8zb40",
+                    "created": 1684482364794,
+                    "text": "研发流程"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csq35ycynnc0",
+                            "created": 1684482371247,
+                            "text": "打包发布"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq36f9bdqw0",
+                            "created": 1684482408032,
+                            "text": "开发集成工具"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}
