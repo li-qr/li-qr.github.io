@@ -95,8 +95,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/模板方法结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 114
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -203,8 +203,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/责任链模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 100
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -280,8 +280,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/命令模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 157
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -296,8 +296,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/命令模式时序图.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 121
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -393,8 +393,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/迭代器模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 93
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -470,8 +470,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/中介者模式结构.jpeg",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 87
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -486,8 +486,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/中介者模式时序图.jpeg",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 120
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -573,8 +573,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/备忘录模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 58
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -670,8 +670,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/观察者模式结构.jpeg",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 82
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -767,8 +767,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/状态模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 76
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -874,8 +874,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/策略模式结构.jpeg",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 86
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -971,8 +971,8 @@
                                             "image": "https://leezw.net/mindmap/images/design-partterns/访问者模式结构.png",
                                             "imageTitle": "",
                                             "imageSize": {
-                                                "width": 0,
-                                                "height": 0
+                                                "width": 200,
+                                                "height": 147
                                             },
                                             "layout": null,
                                             "expandState": "expand"
@@ -984,12 +984,9 @@
                                             "id": "cbouayl1j340",
                                             "created": 1622201120129,
                                             "text": "协作\n一个使用Visitor模式的客户必须创建一个ConcreteVisitor对象,然后遍历该对象结构，并用该访问者访问每一个元素。\n当一个元素被访问时，它调用对应于它的类的Visitor操作。如果必要，该元素将自身作为这个操作的一个参数以便该访问者访问它的状态。",
-                                            "image": "https://leezw.net/mindmap/images/design-partterns/访问者模式协作.png",
+                                            "image": "",
                                             "imageTitle": "",
-                                            "imageSize": {
-                                                "width": 200,
-                                                "height": 83
-                                            },
+                                            "imageSize": "",
                                             "layout": null,
                                             "expandState": "expand"
                                         },
