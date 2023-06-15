@@ -3,7 +3,8 @@
         "data": {
             "id": "c2f7fe834534",
             "created": 1622015988,
-            "text": "设计模式"
+            "text": "设计模式",
+	    "currentstyle":"default"
         },
         "children": [
             {

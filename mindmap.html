@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>KityMinder Editor - Powered By FEX</title>
+
+	<!-- bower:css -->
+    <link rel="stylesheet" href="assets/mindmap/bootstrap.css" />
+    <link rel="stylesheet" href="assets/mindmap/codemirror.css" />
+    <link rel="stylesheet" href="assets/mindmap/hotbox.css" />
+    <link rel="stylesheet" href="assets/mindmap/kityminder.core.css" />
+    <link rel="stylesheet" href="assets/mindmap/color-picker.min.css" />
+	<!-- endbower -->
+
+	<link rel="stylesheet" href="assets/mindmap/kityminder.editor.css">
+
+</head>
+<body ng-app="kityminderDemo" ng-controller="MainController">
+    <kityminder-editor on-init="initEditor(editor, minder)"></kityminder-editor>
+</body>
+
+<!-- bower:js -->
+<script src="assets/mindmap/jquery.js"></script>
+<script src="assets/mindmap/bootstrap.js"></script>
+<script src="assets/mindmap/angular.js"></script>
+<script src="assets/mindmap/ui-bootstrap-tpls.js"></script>
+<script src="assets/mindmap/codemirror.js"></script>
+<script src="assets/mindmap/xml.js"></script>
+<script src="assets/mindmap/javascript.js"></script>
+<script src="assets/mindmap/css.js"></script>
+<script src="assets/mindmap/htmlmixed.js"></script>
+<script src="assets/mindmap/markdown.js"></script>
+<script src="assets/mindmap/overlay.js"></script>
+<script src="assets/mindmap/gfm.js"></script>
+<script src="assets/mindmap/ui-codemirror.js"></script>
+<script src="assets/mindmap/marked.js"></script>
+<script src="assets/mindmap/kity.min.js"></script>
+<script src="assets/mindmap/hotbox.js"></script>
+<script src="assets/mindmap/json-diff.js"></script>
+<script src="assets/mindmap/kityminder.core.js"></script>
+<script src="assets/mindmap/color-picker.min.js"></script>
+<!-- endbower -->
+
+<script src="assets/mindmap/kityminder.editor.min.js"></script>
+<script src="assets/mindmap/main.min.js"></script>
+
+
+<script>
+	angular.module('kityminderDemo', ['kityminderEditor'])
+			.controller('MainController', function($scope) {
+				$scope.initEditor = function(editor, minder) {
+					window.editor = editor;
+					window.minder = minder;
+				};
+			});
+
+</script>
+
+</html>

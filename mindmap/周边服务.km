@@ -265,22 +265,6 @@
                                     "text": "API网关"
                                 },
                                 "children": []
-                            },
-                            {
-                                "data": {
-                                    "id": "csq33djetao0",
-                                    "created": 1684482169196,
-                                    "text": "负载均衡"
-                                },
-                                "children": []
-                            },
-                            {
-                                "data": {
-                                    "id": "csq33sq8ytc0",
-                                    "created": 1684482202261,
-                                    "text": "熔断降级服务禁用保护"
-                                },
-                                "children": []
                             }
                         ]
                     },
@@ -347,7 +331,8 @@
                 "data": {
                     "id": "csq33j2r1ow0",
                     "created": 1684482181249,
-                    "text": "稳定性"
+                    "text": "稳定性",
+                    "expandState": "expand"
                 },
                 "children": [
                     {
@@ -355,6 +340,30 @@
                             "id": "csq33lcdmrc0",
                             "created": 1684482186185,
                             "text": "故障演练"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq33djetao0",
+                            "created": 1684482169196,
+                            "text": "负载均衡"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csq33sq8ytc0",
+                            "created": 1684482202261,
+                            "text": "熔断降级服务禁用保护"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "csvzwaonv340",
+                            "created": 1685082510844,
+                            "text": "流量整形"
                         },
                         "children": []
                     }
