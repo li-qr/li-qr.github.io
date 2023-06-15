@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>KityMinder Editor - Powered By FEX</title>
 
-	<!-- bower:css -->
+    <!-- bower:css -->
     <link rel="stylesheet" href="assets/mindmap/bootstrap.css" />
     <link rel="stylesheet" href="assets/mindmap/codemirror.css" />
     <link rel="stylesheet" href="assets/mindmap/hotbox.css" />
     <link rel="stylesheet" href="assets/mindmap/kityminder.core.css" />
     <link rel="stylesheet" href="assets/mindmap/color-picker.min.css" />
-	<!-- endbower -->
+    <!-- endbower -->
 
-	<link rel="stylesheet" href="assets/mindmap/kityminder.editor.css">
+    <link rel="stylesheet" href="assets/mindmap/kityminder.editor.css">
+
 
 </head>
+
 <body ng-app="kityminderDemo" ng-controller="MainController">
     <kityminder-editor on-init="initEditor(editor, minder)"></kityminder-editor>
 </body>
@@ -46,13 +49,55 @@
 
 
 <script>
-	angular.module('kityminderDemo', ['kityminderEditor'])
-			.controller('MainController', function($scope) {
-				$scope.initEditor = function(editor, minder) {
-					window.editor = editor;
-					window.minder = minder;
-				};
-			});
+    angular.module('kityminderDemo', ['kityminderEditor'])
+        .controller('MainController', function ($scope) {
+            $scope.initEditor = function (editor, minder) {
+                window.editor = editor;
+                window.minder = minder;
+            };
+        });
+
+    window.onload = function () {
+        loadMindMap();
+    };
+
+    function loadMindMap() {
+        var queryString = window.location.search;
+        // 解析查询参数
+        if (!queryString) {
+            console.log("无URL参数")
+            return;
+        }
+        queryString = queryString.substring(1); // 去掉开头的问号
+        var pairs = queryString.split('&');
+        var params = {};
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split('=');
+            var key = decodeURIComponent(pair[0]);
+            var value = decodeURIComponent(pair[1] || '');
+            params[key] = value;
+        }
+
+        if (!params.hasOwnProperty('source')) {
+            console.log("无关键参数")
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', params['source']);
+        xhr.responseType = 'json';
+        xhr.send();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var data = xhr.response;
+                    editor.minder.importJson(data);
+                } else {
+                    console.log('请求失败：' + xhr.status);
+                }
+            }
+        };
+    };
 
 </script>
 
