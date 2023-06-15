@@ -984,7 +984,7 @@
                                             "id": "cbouayl1j340",
                                             "created": 1622201120129,
                                             "text": "协作\n一个使用Visitor模式的客户必须创建一个ConcreteVisitor对象,然后遍历该对象结构，并用该访问者访问每一个元素。\n当一个元素被访问时，它调用对应于它的类的Visitor操作。如果必要，该元素将自身作为这个操作的一个参数以便该访问者访问它的状态。",
-                                            "image": "https://kityminder-img.gz.bcebos.com/10b7c5f94bd3c969f3769c9069a984c445fa806e",
+                                            "image": "https://leezw.net/mindmap/images/design-partterns/访问者模式协作.png",
                                             "imageTitle": "",
                                             "imageSize": {
                                                 "width": 200,
