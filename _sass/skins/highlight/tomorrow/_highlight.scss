@@ -31,7 +31,7 @@ pre.lineno {
   .kn  { color: $highlight-aqua; } /* Keyword.Namespace */
   .kp  { color: $highlight-blue; } /* Keyword.Pseudo */
   .kr  { color: $highlight-blue; } /* Keyword.Reserved */
-  .kt  { color: $highlight-yellow; } /* Keyword.Type */
+  .kt  { color: $highlight-blue; } /* Keyword.Type */
   .ld  { color: $highlight-green; } /* Literal.Date */
   .m   { color: $highlight-blue; } /* Literal.Number */
   .s   { color: $highlight-green; } /* Literal.String */
@@ -44,7 +44,7 @@ pre.lineno {
   .ne  { color: $highlight-red; } /* Name.Exception */
   .nf  { color: $highlight-blue; } /* Name.Function */
   .nl  { color: $highlight-foreground; } /* Name.Label */
-  .nn  { color: $highlight-yellow; } /* Name.Namespace */
+  .nn  { color: $highlight-blue; } /* Name.Namespace */
   .nx  { color: $highlight-blue; } /* Name.Other */
   .py  { color: $highlight-foreground; } /* Name.Property */
   .nt  { color: $highlight-aqua; } /* Name.Tag */
