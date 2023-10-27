@@ -433,3 +433,128 @@ ForkJoinPool 的状态流转如下：
 * `invoke` 会同步执行并返回结果。
 * `involeAll` 会先把**其他的任务**都 `fork` 提交到池中，然后调用 `doInvoke` 同步执行第一个任务。如果任务有返回结果，可以搭配 `get` 获取返回结果。
 * `get` 由 Feature 接口继承而来，会同步执行并等待返回结果，可以配置超时时间。会抛出检查异常 `InterruptedException` 或 `ExecutionException` 强制使用者捕获。
+
+## ConcurrentHashMap
+
+[https://www.cnblogs.com/tyux/articles/15885226.html](https://www.cnblogs.com/tyux/articles/15885226.html)
+
+### 概述
+
+在JDK 1.7及之前的版本中，ConcurrentHashMap的实现基于“分段锁”技术。整个Map被分为一定数量的段(Segment)，put和get操作都是针对于某一个具体的段进行的，这样能够实现真正的并发性。
+
+1. **Segment分段锁**：ConcurrentHashMap内部使用一个Segment数组。Segment是一种可重入的锁ReentrantLock，在ConcurrentHashMap扮演锁的角色，Segment继承自ReentrantLock并且拥有一个HashEntry数组，它的结构如下：
+
+```java
+static final class Segment<K,V> extends ReentrantLock implements Serializable {
+    private static final long serialVersionUID = 2249069246763182397L;
+    transient volatile HashEntry<K,V>[] table;
+    transient int count;
+    transient int modCount;
+    transient int threshold;
+    final float loadFactor;
+}
+```
+
+2. **HashEntry**：这是ConcurrentHashMap的基本存储单位。每个HashEntry都包含一个key-value对，以及指向下一个HashEntry的引用，形成链表结构。
+
+```java
+static final class HashEntry<K,V> {
+    final K key;
+    final int hash;
+    volatile V value;
+    final HashEntry<K,V> next;
+}
+```
+
+3. **并发性**：ConcurrentHashMap的并发性能得到了大幅提升，因为全局只需要锁定一部分Segment，而不需要像HashTable那样锁定整个数据结构。不同的线程可以同时操作不同的Segment，从而提高整体的并发性能。
+4. **扩容**：当某个Segment中的元素数量达到阈值时，就会触发扩容，扩容只会影响到该Segment，不会影响到其他的Segment。
+5. **安全性**：虽然ConcurrentHashMap通过对Segment的修改加锁允许多个修改操作并发进行，这种机制可以确保并发修改操作的安全性。
+
+总的来说，JDK 1.7及之前的ConcurrentHashMap通过“分段锁”技术实现了高并发性能，同时保证了线程安全。
+
+在JDK 1.8及之后的版本中，ConcurrentHashMap的实现进行了重构，放弃了Segment的概念，而是引入了红黑树。同时，JDK 1.8的实现使用了一种更加复杂的无锁算法（CAS操作）。以下是详细的介绍：
+
+1. **Node节点**：在JDK 1.8中，ConcurrentHashMap的基本存储单位变为了Node节点，每个Node都包含一个key-value对，以及指向下一个Node的引用，形成链表结构。
+
+```java
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    volatile V val;
+    volatile Node<K,V> next;
+}
+```
+
+2. **并发性**：在JDK 1.8中，ConcurrentHashMap的并发性能得到了进一步的提升。在进行插入、删除和更新操作时，不再是对整个Segment加锁，而是采用CAS操作，只对具体的Node进行同步。这样，即使多个线程操作同一个Segment，只要不是操作同一个Node，也能够并发进行。
+3. **红黑树**：当链表长度大于一定阈值（默认为8）时，链表就转换为高度更低的红黑树。这样可以在链表长度较大时，提高查找效率。
+4. **扩容**：在JDK 1.8中，ConcurrentHashMap的扩容机制也进行了优化。当某个Node数组需要扩容时，不再创建一个新的Node数组然后将旧的Node复制过去，而是采用了一种新的扩容方式，可以在不影响查询操作的前提下进行扩容。
+5. **计数**：在JDK 1.8中，ConcurrentHashMap的计数方式也进行了优化。在JDK 1.7中，每个Segment维护一个元素计数器，获取size时需要把所有Segment的计数器加起来。而在JDK 1.8中，引入了一个新的计数方式，可以更快地获取到准确的元素数量。
+
+总的来说，JDK 1.8的ConcurrentHashMap在保证线程安全的同时，通过引入红黑树、优化扩容机制和计数方式，进一步提高了其性能。
+
+### 初始化
+
+构造函数只会设置一些参数，只有在第一次插入数据时才会进行初始化操作。构造函数中可以设置初始容量、加载因子、并发级别。
+
+* initialCapacity：初始容量，即 ConcurrentHashMap 内部用于存储元素的数组的初始大小。如果知道将要存储的元素数量，可以适当调大这个值，避免频繁的扩容操作。
+* loadFactor：加载因子，当 ConcurrentHashMap 中的元素数量超过数组大小与加载因子的乘积时，就会进行扩容操作。加载因子的默认值是 0.75。
+* concurrencyLevel：并发级别，表示预期的并发更新线程数。在实际操作中，并不直接影响并发级别，只是用来在初始化时帮助调整内部数组的大小。在 JDK 1.8 中，这个参数已经不再重要，因为 ConcurrentHashMap 会根据需要自动进行扩容。
+
+使用 sizeCtl 控制初始化过程：
+
+1. 如果sizeCtl小于0，说明已经有其他线程在进行初始化或者扩容操作，当前线程就让出CPU，等待其他线程完成操作。
+2. 如果sizeCtl大于等于0，就尝试使用CAS操作将sizeCtl设置为-1，表示当前线程将进行初始化或者扩容操作。
+3. 初始化或者扩容Node数组，如果sizeCtl大于0，就使用sizeCtl作为新数组的长度，否则使用默认的初始容量（DEFAULT_CAPACITY）。
+4. 设置sizeCtl为新数组长度的0.75倍，这是为了在数组元素达到这个数量时就开始扩容，保证ConcurrentHashMap的查询效率。
+
+### hash散列值
+
+ConcurrentHashMap 中节点的 hash 值有多种含义。普通的 hash 值是用过 `spread(key.hashCode())` 计算获得。spread 方法主要作用是保证hash值的分布更均匀，以减少hash碰撞。spread方法的实现非常简单，它只有一行代码：`(h ^ (h >>> 16)) & HASH_BITS`。`& HASH_BITS`是与操作，HASH_BITS是一个常量，值为0x7fffffff，用来保证结果为正数。
+
+将哈希的高位传播（异或）到低位。因为掩码是 2 的次幂，所以当哈希值只在高位变化时，总会发生碰撞。（已知的例子中包括在小表中持有连续整数的Float键的集合）所以使用这种方式将高位的影响向下扩散。在速度、效用和位扩散质量之间有一个权衡。因为许多常见的哈希集已经合理分布（所以不会从扩散中受益），并且因为我们使用树来处理 bin 中的大量碰撞，我们只是以成本最低的方式异或一些位，以减少系统性的损失。
+
+同时存在以下几种特殊的hash值：
+
+1. MOVED(-1)：表示当前节点正在进行扩容操作，节点的数据已经被转移到新的数组中。当其他线程在进行put、get等操作时，如果发现某个节点的hash值为MOVED，那么这个线程会帮助进行数据的迁移。
+2. TREEBIN(-2)：表示当前节点已经转化为红黑树结构。当链表的长度超过一定阈值（默认为8）时，链表会转化为红黑树，提高查询效率。
+3. RESERVED(-3)：表示当前节点已经被其他线程预定，即其他线程正在进行put或者remove操作。当其他线程在进行查询操作时，如果发现某个节点的hash值为RESERVED，那么这个线程会等待，直到RESERVED状态结束。
+
+这三种特殊的 hash 值主要是为了在高并发环境下，保证 ConcurrentHashMap 的线程安全性和高效性。
+
+### 扩容
+
+在以下场景会触发扩容：
+
+1. putVal 后容量超过扩容阈值
+2. 调用 putAll 时提前申请空间
+3. treeifyBin 时如果 tab.lengtb (数组长度，桶数量)小于转换成红黑树最小阈值 `MIN_TREEIFY_CAPACITY = 64` ，会扩容一倍。
+
+### 数据迁移
+
+在触发扩容时线程会发起初始数据迁移。在 putVal 时如果头节点的 `hash == MOVED == -1` ，线程会帮助进行数据迁移。数据迁移可多线程并行进行。
+
+迁移从数组结尾开始，向数组第一位方向进行。每个进行迁移的线程会划分一段自己要迁移的区域，把下一次迁移开始的数组下标存到 transferIndex 中，然后开始迁移数据。其他进行数据迁移的线程会从 transferIndex 开始继续向数组头方向进行。一次数据迁移的步长是 `Math.max( (CPU核数 > 1 ? tab.length/8 : tab.length) , MIN_TRANSFER_STRIDE=16)` 。每迁移完一个位置的节点，会把一个 `hash = MOVED = -1` 的 ForwardingNode 放入这个位置。ForwardingNode 保存了未迁移完成的目标数组引用，因此即使在迁移过程中，查询时也可以调用 `ForwardingNode.find` 来完成查询。
+
+扩容是 2 倍扩容，扩容时会把节点分为 Low、High 两组： `hash & 源数组长度 n == 0` 的元素属于 Low 组，迁移到目标数组 `n` 的位置。 `hash & 源数组长度 n == 1` 的元素属于 High 组，迁移到目标数组 `i + n` 的位置。Map 中有两种类型的节点：链表和树
+
+#### 链表迁移
+
+猜测可能是为了减少 new 节点。在迁移链表前会先检索链表尾部连续属于同一组的节点，把这些节点直接使用。然后在从头节点开始循环，到链表尾部那些属于同一组节点的第一个节点拆分成两组进行迁移。
+
+假设链表中有 `L1->H1->L2->L3` 4 个节点，会先找到 L2 节点，那么 L2 到 L3 都属于 Low 组，然后从 L1 到 H1 循环把这两个节点分成 Log 组和 High 组。那么迁移后就有 Low 组：`L1->L2->L3` ，High 组：`H1` 。
+
+这样处理的优点是如果链表内尾部属于同一组的连续节点非常多，可以减少实例创建。缺点是需要遍历两遍链表。
+
+#### 树迁移
+
+树迁移会先遍历树节点，把所有 TreeNode 点分成 Low、High 两组。会把数量少于 `UNTREEIFY_THRESHOLD = 6` 的组退化成链表结构。而如果这个树所有节点都属于同一组，那就不需要拆分，会直接迁移这个 TreeBin 。
+
+### BlockingQueue
+
+BlockingQueue 接口汇总：
+
+|                      | 会抛出异常 | 会返回boolean或者null | 会阻塞 | 支持超时等待         |
+| -------------------- | ---------- | --------------------- | ------ | -------------------- |
+| **插入**       | add(e)     | offer(e)              | put(e) | offer(e, time, unit) |
+| **获取并移除** | remove()   | poll()                | take() | poll(time, unit)     |
+| **获取不移除**      | element()  | peek()                | -      | -                    |
