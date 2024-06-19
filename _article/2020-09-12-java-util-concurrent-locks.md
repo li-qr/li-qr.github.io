@@ -37,8 +37,9 @@ AQS **提供了统一的锁同步机制**，每种锁不需要重复的造轮子
 
 这些方法默认情况下都会抛出 `UnsupportedOperationException`。这些方法的实现必须是内部线程安全的，并且通常应该简短且不阻塞。定义这些方法是使用此类的唯一支持方式。所有其他方法都声明为final，因为它们不能独立变化。
 
+## 锁获取和释放
 
-## acquire
+### acquire
 
 `AbstractQueuedSynchronizer`（AQS）的 `acquire` 方法是一个模板方法，它依赖于子类去实现 `tryAcquire`方法以提供具体的获取锁逻辑。当获取锁失败，也就是 `tryAcquire` 返回 false 时。进行排队阻塞流程。
 
@@ -78,11 +79,11 @@ private Node enq(final Node node) {
 }
 ```
 
-## release
+### release
 
 如果子类实现的 `tryRelease` 方法返回成功，就开始唤醒后面的等待节点。首先重置当前节点的 `waitStatus` 为默认值 0 。然后如果 `next` 节点不为空且未被取消接直接 `unpark` 。否则从 `tail` 节点往前遍历找到第一个 `waitStatus<=0` 的节点进行 `unpark` 。
 
-## acquireShared
+### acquireShared
 
 于 `acqiure` 的不同是，在共享模式获取到锁后，如果 `next` 节点不是独占锁会调用 `doReleaseShared` 方法，这个方法在 `releaseShared` 中进行介绍。
 
@@ -90,11 +91,11 @@ private Node enq(final Node node) {
 
 至于为什么共享锁要在获取锁之后向后唤醒，因为 AQS 的设计是等待前一个节点，当前一个节点资源释放后向后唤醒。而共享资源允许多个线程同时获取资源，这里如果再等到释放资源按顺序唤醒会影响后续节点获取共享资源的效率，所以当有 1 个线程获取到共享资源时，会同时唤醒等待队列中的所有正在等待共享资源的后继节点。
 
-## releaseShared
+### releaseShared
 
 在共享锁释放成功后，会调用 `doReleaseShared` 方法，`acquireShared` 也会调用 `doReleaseShared` 。
 
-在 for 循环中完成两个事情，如果后续节点需要唤醒（`head` 节点状态是 SIGNAL），就调用 `unparkSuccessor` 进行唤醒；如果 head 节点的状态是默认状态 0，说明当前处于一个并发的中间态，需要把 head 状态设置为 PROPAGATE。
+在 for 循环中完成两个事情，如果后续节点需要唤醒（`head` 节点状态是 SIGNAL），就调用 `unparkSuccessor` 进行唤醒，同 `release`；如果 head 节点的状态是默认状态 0，说明当前处于一个并发的中间态，需要把 head 状态设置为 PROPAGATE。
 
 PROPAGATE 状态的作用在 [《AQS 中 Node.PROPAGATE 状态引入的意义》](https://yangsanity.me/2022/06/11/AQS-PROPAGATE/) 这篇文章中总结的很详细。具体引入原因是 Semaphore 当中会触发无法唤醒的 bug。
 
@@ -120,6 +121,26 @@ private void doReleaseShared() {
     }
 }
 ```
+
+## Condition 条件等待和通知
+
+Condition 是 AbstractQueuedSynchroizer 的内部非静态类，也就是创建 Condition 实例需要依附于一个 AbctractQueuedSynchroizer 实例才可以。并且 Condition 可以操作和使用 AbctractQueuedSynchroizer 实例的内部状态。基于这点属性，Condition 的作用就是在同一个临界资源的完整的 AbctractQueuedSynchroizer 锁周期内实现条件等待和唤醒能力，而减少使用锁的复杂度，同时提供更灵活的条件等待控制。
+
+如果不使用 Condition ，只能到需要等待条件的位置释放锁，然后再手动阻塞等待，在被唤醒后重新获取锁。
+
+同一个 AbstractQueuedSynchroizer 实例可以关联多个 Condition 实例。每个 Condition 实例内部又单独维护了一套自己的条件等待队列。Condition 的等待和唤醒，就是把 AbstractQueuedSynchroizer 锁队列的节点移动到自己的条件等待队列中 `park` 等待，然后把自己内部条件等待队列的节点恢复到 AbstractQueuedSynchroizer 的锁队列中 `unpark` 唤醒重新抢占锁。
+
+### await
+
+创建一个 CONDITION 节点添加到这个 Condition 实例的条件队列中，然后释放锁，`park` 等待直到被 `signal` 通知唤醒。被唤醒后重新 `acquireQueued` 获取锁（根据 `acquire` 流程，还会 `park` 阻塞直到获取到锁）。
+
+### signal
+
+把 Condition 条件队列中的 `firstWaiter` 节点移动到 AQS 的锁队列中，然后唤醒这个节点的线程。让这个线程去抢占锁，当然如果抢占失败会阻塞，这个流程和 `acquire` 是一样的。
+
+### signalAll
+
+从 `firstWaiter` 开始循环到 `lastWaiter` ，依次把所有的条件等待节点移动到 AQS 的锁队列中，并进行唤醒。
 
 # ReentrantReadWriteLock
 
@@ -317,11 +338,14 @@ protected final boolean tryReleaseShared(int unused) {
 }
 ```
 
+# ReentractLock
 
-'
+ReentractLock 相对简单，获取锁的时候如果当前锁没有被持有就直接更新 `state`，如果锁被当前线程持有就增加 `state` 计数。公平锁会判断锁队列不空的话就等待，非公平锁就直接设置 `state`。
 
-'
+释放锁会减少 `state` 计数，如果计数归零就删除锁中记录的线程。
 
-'
+# StampedLock
 
-'
+这个锁是一个单独的实现，没有使用 AQS，也没有实现 Lock 接口。JDK 1.5 引入的 AQS 和 ReentrantReadWriteLock ，而在 JDK 1.8 引入的此类。旨在一些小众特殊场景进行使用。
+
+这个锁的特点是读锁可以支持乐观锁，以及锁可以读锁和写锁之间进行升降级。这样的好处是在明显的读多写少的情况，可以避免锁抢占和阻塞造成的线程上下文切换，但是其乐观锁由于不加锁，而是通过校验锁标记判断资源是否发生改变，也存在大面积读最后都失效的影响，数据一致性要求极高的场景下需要谨慎使用，因为在读取过程中数据可能被修改。
